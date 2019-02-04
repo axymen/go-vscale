@@ -71,7 +71,7 @@ func (s *ScaletService) List() (*[]Scalet, *http.Response, error) {
 	return scalets, res, err
 }
 
-func (s *ScaletService) Create(makeFrom, rplan, name, password, location string, doStart bool,
+func (s *ScaletService) Create(hostname, makeFrom, rplan, name, password, location string, doStart bool,
 	keys []int64, wait bool) (*Scalet, *http.Response, error) {
 
 	scalet := new(Scalet)
@@ -85,6 +85,7 @@ func (s *ScaletService) Create(makeFrom, rplan, name, password, location string,
 	}
 
 	body := struct {
+		Hostname string  `json:"hostname,omitempty"`
 		MakeFrom string  `json:"make_from,omitempty"`
 		Rplan    string  `json:"rplan,omitempty"`
 		DoStart  bool    `json:"do_start,omitempty"`
@@ -92,7 +93,7 @@ func (s *ScaletService) Create(makeFrom, rplan, name, password, location string,
 		Keys     []int64 `json:"keys,omitempty"`
 		Password string  `json:"password,omitempty"`
 		Location string  `json:"location,omitempty"`
-	}{makeFrom, rplan, doStart, name, keys, password, location}
+	}{hostname, makeFrom, rplan, doStart, name, keys, password, location}
 
 	b, _ := json.Marshal(body)
 
@@ -106,7 +107,7 @@ func (s *ScaletService) Create(makeFrom, rplan, name, password, location string,
 	return scalet, res, err
 }
 
-func (s *ScaletService) CreateWithoutPassword(makeFrom, rplan, name, location string, doStart bool,
+func (s *ScaletService) CreateWithoutPassword(hostname, makeFrom, rplan, name, location string, doStart bool,
 	keys []int64, wait bool) (*Scalet, *http.Response, error) {
 
 	scalet := new(Scalet)
@@ -120,13 +121,14 @@ func (s *ScaletService) CreateWithoutPassword(makeFrom, rplan, name, location st
 	}
 
 	body := struct {
+		Hostname string  `json:"hostname,omitempty"`
 		MakeFrom string  `json:"make_from,omitempty"`
 		Rplan    string  `json:"rplan,omitempty"`
 		DoStart  bool    `json:"do_start,omitempty"`
 		Name     string  `json:"name,omitempty"`
 		Keys     []int64 `json:"keys,omitempty"`
 		Location string  `json:"location,omitempty"`
-	}{makeFrom, rplan, doStart, name, keys, location}
+	}{hostname, makeFrom, rplan, doStart, name, keys, location}
 
 	b, _ := json.Marshal(body)
 
