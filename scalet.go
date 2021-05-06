@@ -3,6 +3,7 @@ package vscale_api_go
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"strconv"
@@ -136,9 +137,10 @@ func (s *ScaletService) CreateWithoutPassword(hostname, makeFrom, rplan, name, l
 
 	if wait && wsserr == nil && res.Header.Get("VSCALE-TASK-ID") != "" {
 		_, err := s.client.WaitTask(conn, res.Header.Get("VSCALE-TASK-ID"))
+		log.Println("[DEBUG] scalet in the  CreateWithoutPassword when wait ",scalet)
 		return scalet, res, err
 	}
-
+	log.Println("[DEBUG] scalet in the  CreateWithoutPassword ",scalet)
 	return scalet, res, err
 }
 
